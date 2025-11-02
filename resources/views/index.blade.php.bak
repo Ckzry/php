@@ -1,0 +1,48 @@
+@extends( 'layouts.app')
+@section( 'content')
+<script type="text/javascript">
+function check(form){
+	var confirm=window.confirm('你确定删除该新闻么？');
+	if(confirm==TRUE){
+		form.submit;
+		}
+		else{
+		alert("取消删除操作");
+		return false;
+	}
+
+}</script>
+<div class = " container">
+<div class= "card" >
+<div class="card-header">新闻列表</div>
+<div class = "card-body" >
+<table class=" table table-hover table-bordered" >
+<thead class='bg-info'>
+<tr>
+<td>新闻标题</d><td>发布时间</td><td>操作</td>
+</tr>
+</thead>
+<tbody>
+@foreach($notices as $notice)
+<tr>
+<td>{{ $notice->title}}</td>
+<td>{{$notice->created_at}}</td>
+<td>
+<a href="{{route('notice.create')}}" class="btn btn-info">发布新闻 </a>
+<a href="{{route('notice.edit',$notice->id)}}" class="btn btn-info">编辑新闻</a>
+<form name = "forml" method = "post" action="{{route('notice.destroy',$notice->id)}}">
+{{csrf_field()}}
+<input name="_method" type="hidden" value="DELETE">
+<button type='submit' class='btn btn-info' onClick="return check(forml);">删除新闻</button></form>
+</td>
+</tr>
+@endforeach
+</tbody>
+<tfoot>
+{{$notices->links()}}
+</tfoot>
+</table>
+</div>
+</div>
+</div>
+@endsection

@@ -1,0 +1,31 @@
+@extends( 'layouts.app')
+@section( 'content')
+
+<h3>发布新闻</h3>
+<form name = "forml" method = "post" action="{{route('notice.store')}}">
+{{csrf_field()}}
+<label>新闻标题</label>
+<input type="text"  id="title" name="title" placehoder="请输入新闻标题">
+<label>新闻内容</label>
+<textarea  id="content" name="content" cols="30" rows="8"></textarea>
+<button type='submit'  onClick="return check(forml);">发布新闻</button>
+</form>
+@endsection
+
+<script language="javascript">
+function check(form){
+	if(form.title.value==""){
+		alert("请输入新闻标题");
+		form.title.focus();
+		return false;
+	}
+	if(form.content.value==""){
+		alert("请输入新闻内容");
+		form.content.focus();
+		return false;
+	}
+	form.submit();
+}</script>
+<style>
+
+</style>

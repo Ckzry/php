@@ -1,0 +1,125 @@
+@extends( 'layouts.app')
+@section( 'content')
+<div class=" container" >
+<div class = " row justify-content-center">
+<div class =" card" >
+<div class=" card-header">
+<h3>编辑新闻</h3>
+</div>
+<div class=" card-body" >
+<form name = "form2" method = "post" action="{{route('notice.update',$notice->id)}}">
+{{csrf_field()}}
+<input name="_method" type="hidden" value="PUT">
+<div class='form-group'>
+<label for="title">新闻标题</label>
+<input type="text" class="form-control" id="title" name="title" placehoder="请输入新闻标题" value="{{ $notice->title}}">
+</div>
+<div class='form-group'>
+<label for="content">新闻内容</label>
+<textarea class="form-control" id="content" name="content" cols="30" rows="8">{{$notice->content}}</textarea>
+</div>
+<p>发布于{{$notice->created_at}}</p>
+<p>修改于{{$notice->updated_at}}</p>
+<button type='submit' class='btn btn_primary' onClick="return check(form2);">确认编辑</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+@endsection
+
+<script language="javascript">
+function check(form){
+	if(form.title.value==""){
+		alert("请输入新闻标题");
+		form.title.focus();
+		return false;
+	}
+	if(form.content.value==""){
+		alert("请输入新闻内容");
+		form.content.focus();
+		return false;
+	}
+	form.submit();
+}
+</script>
+<style>
+/* 整体页面背景设置，采用带有动态效果的径向渐变背景，营造炫酷氛围 */
+body {
+    background: radial-gradient(circle, #1a2a6c, #b21f1f, #fdbb2d);
+    background-size: 200% 200%;
+    animation: gradientAnimation 15s ease infinite; /* 添加动画，让背景渐变有动态效果 */
+    font-family: Arial, sans-serif;
+    min-height: 100vh; /* 确保页面至少占满视口高度 */
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes gradientAnimation {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+
+
+/* 卡片整体样式调整，去除默认边框等 */
+.card {
+    border: none;
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.3); /* 卡片主体设置为半透明黑色背景 */
+}
+
+/* 卡片头部样式，设置独特的颜色、文字样式等 */
+.card-header {
+    background-color: #FF5733; /* 亮眼的橙色作为标题栏背景，形成视觉焦点 */
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+/* 表单内各输入框组样式，增加间距等 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* 输入框通用样式，包括文本框和文本域，设置边框、圆角、颜色等 */
+.form-control {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: rgba(255, 255, 255, 0.2); /* 半透明白色背景，便于输入内容展示 */
+    color: white; /* 文字颜色设为白色，与整体背景协调 */
+    padding: 10px;
+}
+
+/* 按钮样式，设置独特的背景色、悬停效果等 */
+.btn.btn-primary {
+    background-color: #00FF00; /* 醒目的绿色按钮，对比强烈 */
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    color: black; /* 文字颜色设为黑色，保证可读性 */
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease; /* 过渡效果，背景色和文字颜色变化更平滑 */
+}
+
+.btn.btn-primary:hover {
+    background-color: #00CC00; /* 鼠标悬停时按钮颜色稍变深 */
+    color: white; /* 文字颜色变为白色，视觉变化更明显 */
+}
+
+/* 时间显示段落的样式，设置文字颜色等，使其更协调 */
+p {
+    color: #ccc;
+    margin-bottom: 10px;
+}
+</style>

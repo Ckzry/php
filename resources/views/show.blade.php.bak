@@ -1,0 +1,213 @@
+@extends( 'layouts.app')
+@section( 'content')
+<div class="container">
+<div class =" row justify-content-center" >
+<div class = "card" >
+<div class="card-header">新闻详情</div>
+<div class="card-body" >
+<h1 class=" text-center">{{$notice->title}}<h1>
+<p>发布时间{{$notice->created_at}}</p>
+<hr>
+<p>{{$notice->content}}</p>
+<h3>评论</h3>
+<ul>
+@foreach( $comments as $comment)
+<li>{{$comment->userName()}}评论说:{{$comment->content}}</li>
+@endforeach
+</ul>
+<form name = "form3" method = "post" action="/comment">
+{{ csrf_field() }}
+<input type="hidden" name="_token" value="{{ csrf_token() }}">
+<input type= "hidden" name= "user_id" value="{{Auth::user()->id}}">
+<input type = "hidden" name = "notice_id" value="{{$notice->id}}">
+<div class = 'form-group'>
+<label for="content">您对这篇新闻有什么想说的?</label>
+<textarea name = "content" cols = "20" rows = "6" class ="form-control" id="content"></textarea>
+</div>
+<button type= "submit" class = "btn btn_primary" onClick="return check(form3);">发表评论</button>
+</form>
+</div>
+</div>
+</div>
+</div>
+@endsection
+<script language="javascript">
+function check(form){
+	if(form.content.value==""){
+		alert("请输入评论内容");
+		form.content.focus();
+		return false;
+	}
+	form.submit();
+}</script>
+<style>
+
+/* 页面整体背景设置，使用炫酷的动态星空背景效果 */
+body {
+    background: black url('https://example.com/stars.jpg') fixed; /* 假设你有一张星空背景图，这里用示例链接示意，可替换为真实可用的图片路径，若不用图片背景可注释掉此行 */
+    background-blend-mode: screen; /* 混合模式让背景更有层次感 */
+    background-size: cover;
+    animation: backgroundAnimation 20s linear infinite; /* 背景动画，营造动态效果 */
+    color: white; /* 文字颜色设为白色，保证与深色背景对比清晰 */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes backgroundAnimation {
+    0% {
+        background-position: 0 0;
+    }
+    50% {
+        background-position: 100% 100%;
+    }
+    100% {
+        background-position: 0 0;
+    }
+}
+
+/* 容器样式，设置独特外观和阴影等，使其在页面中很突出 */
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: rgba(0, 0, 0, 0.5); /* 半透明黑色背景，与整体融合又凸显内容 */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.6); /* 较深且明显的阴影效果 */
+    border: 2px solid #FFD700; /* 金色边框，增加酷炫感 */
+    backdrop-filter: blur(5px); /* 模糊滤镜，让背景更有质感 */
+}
+
+/* 卡片整体样式调整 */
+.card {
+    border: none;
+    border-radius: 15px;
+    background-color: rgba(0, 0, 0, 0.4); /* 卡片主体半透明黑色背景 */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* 卡片自身阴影 */
+}
+
+/* 卡片头部样式，用亮眼的颜色突出显示 */
+.card-header {
+    background-color: #FF0000; /* 红色背景，很醒目 */
+    color: white;
+    text-align: center;
+    padding: 15px 0;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    font-size: 24px; /* 加大字体尺寸 */
+    text-transform: uppercase; /* 转为大写字母，更显酷炫 */
+    letter-spacing: 2px; /* 增加字母间距 */
+    font-weight: bold; /* 加粗字体 */
+}
+
+/* 一级标题样式 */
+h1 {
+    color: #00FF00; /* 绿色标题，对比强烈 */
+    text-align: center;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px #00FF00, 0 0 20px #00FF00; /* 发光文字效果 */
+    font-size: 36px;
+    font-weight: bold;
+    animation: titleAnimation 3s ease-in-out infinite alternate; /* 标题动画效果 */
+}
+
+@keyframes titleAnimation {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.1);
+    }
+}
+
+/* 段落样式（发布时间、新闻内容等段落通用） */
+p {
+    color: #ccc;
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px white; /* 淡淡的文字发光效果 */
+    line-height: 1.5;
+}
+
+/* 水平分割线样式 */
+hr {
+    border: none;
+    border-top: 2px solid #FFD700; /* 金色分割线 */
+    margin: 20px 0;
+}
+
+/* 评论标题样式 */
+h3 {
+    color: #00FFFF; /* 青色标题，很亮眼 */
+    margin-bottom: 15px;
+    text-shadow: 0 0 5px #00FFFF;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* 评论列表样式 */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    border: 1px solid #FFD700; /* 金色边框 */
+    transition: transform 0.3s ease; /* 加入过渡效果，用于悬停动画 */
+}
+
+li:hover {
+    transform: translateY(-5px); /* 鼠标悬停时向上移动一点，有悬浮感 */
+}
+
+/* 评论表单样式 */
+form {
+    margin-top: 20px;
+}
+
+/* 表单内标签样式 */
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #FFD700; /* 金色文字，很突出 */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* 文本域样式 */
+textarea.form-control {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 2px solid #FFD700; /* 金色边框 */
+    border-radius: 10px;
+    background-color: rgba(0, 0, 0, 0.3); /* 半透明黑色背景 */
+    color: white;
+    font-size: 16px;
+    resize: none; /* 禁止用户拉伸文本域大小 */
+}
+
+/* 按钮样式，超酷炫效果 */
+.btn.btn-primary {
+    background-color: #FF00FF; /* 洋红色按钮，很亮眼 */
+    border: none;
+    border-radius: 10px;
+    padding: 12px 30px;
+    color: white;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: background-color 0.3s ease, transform 0.3s ease; /* 过渡效果，背景色和变形动画 */
+}
+
+.btn.btn-primary:hover {
+    background-color: #990099; /* 鼠标悬停时按钮颜色加深 */
+    transform: scale(1.05); /* 鼠标悬停时按钮稍放大一点 */
+}
+</style>
